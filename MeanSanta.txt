@@ -1,0 +1,19 @@
+
+How to run:
+
+npm start
+
+
+
+Yeoman - automatic generation
+
+nodejs net 
+
+express / hapi
+
+package.json - scripts: "start": "node index.js"
+
+pug, handlebars, nunjucks -> html stuff
+
+mongodb - low level
+mongoose - layer above mongodb making it easier to use
