@@ -7,17 +7,6 @@ const port = 3000;
 app.set('view engine', 'pug');
 app.set('views', './views');
 
-app.get('/', (req, res) => {
-    res.render('index', {title: 'Hey', message: 'Happy 2020 :)'})
-});
-
-
-app.get('/login', (req, res) => res.send(`Welcome to secret <b>login</b> page`));
-app.get('/users', (req, res) => res.send(`Welcome to secret <b>login</b> page`));
-
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
 const monk = require('monk');
 
 // Connection URL
@@ -32,10 +21,36 @@ const usersCollection = db.get('users', {});
 //     })
 //     .then(() => db.close());
 
-usersCollection.findOne({name: "Matt"})
-    .then(console.log);
+// usersCollection.findOne({name: "Matt"})
+//     .then(console.log);
 
 db.then(() => {
     console.log('Connected correctly to server');
 });
+
+app.get('/', (req, res) => {
+    res.render('index', {title: 'Hey', message: 'Happy 2020 :)'})
+});
+
+
+app.get('/login', (req, res) => res.send(`Welcome to secret <b>login</b> page`));
+
+app.get('/users', (req, res) => {
+
+    usersCollection.find({}, {name})
+        .then((user) => {
+            res.render('userProfile', {userName: user.name, userOccupation: user.occupation})
+        });
+});
+
+app.get('/users/:userGUID', (req, res) => {
+
+    usersCollection.findOne({_id: req.params.userGUID})
+        .then((user) => {
+            res.render('userProfile', {userName: user.name, userOccupation: user.occupation})
+        });
+});
+
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
